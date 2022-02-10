@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string>
 
+#include "cli.h"
 #include "gameutil.h"
 #include "move.h"
 #include "piece.h"
@@ -20,7 +21,7 @@ ChessBoard::~ChessBoard() {
 }
 
 void ChessBoard::printboard() {
-    printboarder();
+    CLI::info(this->prefix, "");
     std::string line;
     for (int rank = 7; rank >= 0; rank--) {
         for (int file = 0; file < 8; file++) {
@@ -98,8 +99,6 @@ void ChessBoard::printboard() {
         std::cout
             << "K ";
     std::cout << std::endl;
-
-    printboarder();
 }
 
 int ChessBoard::getpiece(int file, int rank) {
@@ -123,12 +122,4 @@ void ChessBoard::movepiece(Move move) {
 void ChessBoard::loadFen(std::string fen) {
     util_loadfen(fen, m_board);
     std::cout << "Successfully loaded new game." << std::endl;
-}
-
-void printboarder() {
-    // boarder
-    for (int i = 0; i < 20; i++) { // 20?
-        std::cout << "-";
-    }
-    std::cout << std::endl;
 }

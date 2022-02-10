@@ -20,6 +20,8 @@ class ChessBoard {
     ChessBoard(std::string fen);
     ~ChessBoard();
 
+    std::string prefix = "Chessboard";
+
     BoardState* m_board;
 
     int getpiece(int x, int y);
