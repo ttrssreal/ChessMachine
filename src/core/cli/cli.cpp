@@ -1,5 +1,6 @@
 #include "cli.h"
 #include "chessboard.h"
+#include "guichessboard.h"
 #include "piece.h"
 #include <iostream>
 #include <sstream>
@@ -32,9 +33,16 @@ void CLI::start(ChessBoard* chessboard) {
             CLI::m_targetboard->printboard();
         }
 
+        // help
         if (args[0] == "h" ||
             args[0] == "help") {
             CLI::printhelp();
+        }
+
+        // start gui
+        if (args[0] == "v" || // visual?
+            args[0] == "gui") {
+            GUIChessBoard::start(m_targetboard);
         }
 
         // movepiece
@@ -75,6 +83,7 @@ void CLI::start(ChessBoard* chessboard) {
 
     ERROR:;
     }
+STOPCLI:;
 }
 
 std::string CLI::prompt() {
