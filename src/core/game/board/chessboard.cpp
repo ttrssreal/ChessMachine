@@ -4,20 +4,24 @@
 #include <stdint.h>
 #include <string>
 
+#include "chessmachine.h"
 #include "cli.h"
 #include "gameutil.h"
 #include "move.h"
 #include "piece.h"
+#include <assert.h>
 
 ChessBoard::ChessBoard() : ChessBoard(DEFAULTBOARDPOSITION) {}
 
 ChessBoard::ChessBoard(std::string fen) {
-    m_board = new BoardState;
+    m_board = new struct BoardState;
+    m_ai = new ChessMachine;
     loadFen(fen);
 }
 
 ChessBoard::~ChessBoard() {
     delete m_board;
+    delete m_ai;
 }
 
 void ChessBoard::printboard() {
@@ -26,50 +30,7 @@ void ChessBoard::printboard() {
     for (int rank = 7; rank >= 0; rank--) {
         for (int file = 0; file < 8; file++) {
             uint8_t piece = getpiece(file, rank);
-            char* letter;
-            switch (piece) {
-            case (WHITE | PAWN):
-                letter = WHITEPAWNSTRING;
-                break;
-            case (WHITE | KNIGHT):
-                letter = WHITEKNIGHTSTRING;
-                break;
-            case (WHITE | BISHOP):
-                letter = WHITEBISHOPSTRING;
-                break;
-            case (WHITE | ROOK):
-                letter = WHITEROOKSTRING;
-                break;
-            case (WHITE | QUEEN):
-                letter = WHITEQUEENSTRING;
-                break;
-            case (WHITE | KING):
-                letter = WHITEKINGSTRING;
-                break;
-
-            case (BLACK | PAWN):
-                letter = BLACKPAWNSTRING;
-                break;
-            case (BLACK | KNIGHT):
-                letter = BLACKKNIGHTSTRING;
-                break;
-            case (BLACK | BISHOP):
-                letter = BLACKBISHOPSTRING;
-                break;
-            case (BLACK | ROOK):
-                letter = BLACKROOKSTRING;
-                break;
-            case (BLACK | QUEEN):
-                letter = BLACKQUEENSTRING;
-                break;
-            case (BLACK | KING):
-                letter = BLACKKINGSTRING;
-                break;
-
-            default:
-                letter = "-";
-                break;
-            }
+            char* letter = util_getpiecesym(piece);
             std::cout << letter << " ";
         }
         std::cout << std::endl;
@@ -105,7 +66,7 @@ int ChessBoard::getpiece(int file, int rank) {
     return m_board->pieces[(rank << 4) + file];
 }
 
-void ChessBoard::movepiece(Move move) {
+void ChessBoard::movepiece(struct Move move) {
     // no verification of correct moves... yet
     int movingpiece = m_board->pieces[move.movefrom];
     m_board->pieces[move.moveto] = movingpiece;
@@ -121,5 +82,5 @@ void ChessBoard::movepiece(Move move) {
 
 void ChessBoard::loadFen(std::string fen) {
     util_loadfen(fen, m_board);
-    std::cout << "Successfully loaded new game." << std::endl;
+    CLI::info(this->prefix, "Successfully loaded new game.");
 }

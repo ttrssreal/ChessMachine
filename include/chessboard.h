@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
+#include "chessmachine.h"
 #include "move.h"
-#include "piece.h"
 
 #define DEFAULTBOARDPOSITION "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -22,15 +21,14 @@ class ChessBoard {
 
     std::string prefix = "Chessboard";
 
-    BoardState* m_board;
+    struct BoardState* m_board;
+    ChessMachine* m_ai;
 
     int getpiece(int x, int y);
     int pieceispresent(int x, int y);
 
     void loadFen(std::string fen);
 
-    void movepiece(Move move);
+    void movepiece(struct Move move);
     void printboard();
 };
-
-void printboarder();

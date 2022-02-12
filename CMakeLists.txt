@@ -3,6 +3,7 @@ project(chessmachine VERSION 0.1 DESCRIPTION "Chess.")
 
 set(SRC
 	src/chessmachine.cpp
+	src/core/chessmachine/move.cpp
 	src/core/game/board/chessboard.cpp
 	src/core/cli/cli.cpp
 	src/util/gameutil.cpp

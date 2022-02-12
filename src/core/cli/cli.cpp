@@ -25,12 +25,19 @@ void CLI::start(ChessBoard* chessboard) {
                 argbuff.push_back(input[i]);
         }
 
+        // printboard
         if (args[0] == "p" ||
             args[0] == "print" ||
             args[0] == "printboard") {
             CLI::m_targetboard->printboard();
         }
 
+        if (args[0] == "h" ||
+            args[0] == "help") {
+            CLI::printhelp();
+        }
+
+        // movepiece
         if (args[0] == "m" ||
             args[0] == "mv" ||
             args[0] == "move" ||
@@ -50,7 +57,22 @@ void CLI::start(ChessBoard* chessboard) {
             CLI::m_targetboard->movepiece(
                 {square[args[1]],
                  square[args[2]]});
+
+            // auto make move after human
+            m_targetboard->m_ai->generatemoves(m_targetboard->m_board);
+            m_targetboard->m_ai->makemove(m_targetboard);
         }
+
+        // loadfen - non functioning
+        if (args[0] == "l" ||
+            args[0] == "load" ||
+            args[0] == "loadfen") {
+            if (argcount < 2)
+                goto ERROR;
+            // mabey use boost regex to verify in future
+            CLI::m_targetboard->loadFen(args[1]);
+        }
+
     ERROR:;
     }
 }
@@ -88,4 +110,12 @@ void CLI::info(std::string prefix, std::string msg) {
               << prefix
               << "]: "
               << "\033[0m" << msg << "\n";
+}
+
+void CLI::printhelp() {
+    std::cout << "Commands:\n"
+                 "help - Prints this... what else? commands: h, help                                               |\n"
+                 "printboard - Prints the current loaded chessboard to the console. aliases: p, print, printboard  |\n"
+                 "movepiece - Moves a piece between two squares. aliases: m, mv, move, movepiece                   | example: \"movepiece e2 24\"\n"
+                 "loadfen - Loads a 'fen' complient string. aliases: l, load, loadfen                              |\n";
 }

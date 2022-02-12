@@ -16,4 +16,5 @@ class CLI {
     static void error(std::string msg);
 
     static std::string prompt();
+    static void printhelp();
 };

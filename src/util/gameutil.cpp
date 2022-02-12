@@ -9,7 +9,7 @@
 // default
 // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
-BoardState* util_loadfen(std::string fen, BoardState* board) {
+struct BoardState* util_loadfen(std::string fen, struct BoardState* board) {
     std::stringstream fenstream(fen);
     std::string fensectionbuff, fensectionstring;
     std::vector<std::string> fensections;
@@ -114,7 +114,63 @@ BoardState* util_loadfen(std::string fen, BoardState* board) {
     return board;
 }
 
-void util_boardstate_setpiece(BoardState* board, int file, int rank, int piece) {
+void util_boardstate_setpiece(struct BoardState* board, int file, int rank, int piece) {
     board->pieces[(rank << 4) + file] = piece;
     return;
+}
+
+// get piece symbol ie. p B q r N
+char* util_getpiecesym(uint8_t piece) {
+    switch (piece) {
+    case (WHITE | PAWN):
+        return WHITEPAWNSTRING;
+        break;
+    case (WHITE | KNIGHT):
+        return WHITEKNIGHTSTRING;
+        break;
+    case (WHITE | BISHOP):
+        return WHITEBISHOPSTRING;
+        break;
+    case (WHITE | ROOK):
+        return WHITEROOKSTRING;
+        break;
+    case (WHITE | QUEEN):
+        return WHITEQUEENSTRING;
+        break;
+    case (WHITE | KING):
+        return WHITEKINGSTRING;
+        break;
+
+    case (BLACK | PAWN):
+        return BLACKPAWNSTRING;
+        break;
+    case (BLACK | KNIGHT):
+        return BLACKKNIGHTSTRING;
+        break;
+    case (BLACK | BISHOP):
+        return BLACKBISHOPSTRING;
+        break;
+    case (BLACK | ROOK):
+        return BLACKROOKSTRING;
+        break;
+    case (BLACK | QUEEN):
+        return BLACKQUEENSTRING;
+        break;
+    case (BLACK | KING):
+        return BLACKKINGSTRING;
+        break;
+    default:
+        return "-"; // blank square symbol
+        break;
+    }
+}
+
+// stack overflow lamo
+int util_randint(int min, int max) {
+    static bool first = true;
+    if (first) {
+        srand(time(NULL)); //seeding for the first time only!
+        first = false;
+    }
+    return min + rand() % ((max + 1) - min);
 }
