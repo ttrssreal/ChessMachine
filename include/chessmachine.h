@@ -7,6 +7,9 @@
 class ChessBoard;
 
 class ChessMachine {
+  private:
+    std::string m_prefix = "AI";
+
   public:
     std::vector<struct Move> validmoves;
     void makemove(ChessBoard* chessboard);
@@ -18,4 +21,6 @@ class ChessMachine {
     void getrookmoves(struct BoardState* board, uint8_t piecesquare);
     void getqueenmoves(struct BoardState* board, uint8_t piecesquare);
     void getkingmoves(struct BoardState* board, uint8_t piecesquare);
+
+    void getslidingmoves(struct BoardState* board, uint8_t piecesquare, std::vector<int> diroffs, int range);
 };

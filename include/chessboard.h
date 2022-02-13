@@ -14,12 +14,13 @@ struct BoardState {
 };
 
 class ChessBoard {
+  private:
+    std::string m_prefix = "Chessboard";
+
   public:
     ChessBoard();
     ChessBoard(std::string fen);
     ~ChessBoard();
-
-    std::string prefix = "Chessboard";
 
     struct BoardState* m_board;
     ChessMachine* m_ai;

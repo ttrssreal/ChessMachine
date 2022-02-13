@@ -25,7 +25,7 @@ ChessBoard::~ChessBoard() {
 }
 
 void ChessBoard::printboard() {
-    CLI::info(this->prefix, "");
+    CLI::info(m_prefix, "");
     std::string line;
     for (int rank = 7; rank >= 0; rank--) {
         for (int file = 0; file < 8; file++) {
@@ -73,14 +73,14 @@ void ChessBoard::movepiece(struct Move move) {
     m_board->pieces[move.movefrom] = BLANK;
 
     if (m_board->turn == 1)
-        std::cout << "White made move." << std::endl;
+        std::cout << "White made the move " << move.getstring() << std::endl;
     else if (m_board->turn == 0)
-        std::cout << "Black made move." << std::endl;
+        std::cout << "Black made move " << move.getstring() << std::endl;
 
     m_board->turn = !m_board->turn; // flip move
 }
 
 void ChessBoard::loadFen(std::string fen) {
     util_loadfen(fen, m_board);
-    CLI::info(this->prefix, "Successfully loaded new game.");
+    CLI::info(m_prefix, "Successfully loaded new game.");
 }

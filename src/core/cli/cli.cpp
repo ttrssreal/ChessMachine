@@ -117,5 +117,5 @@ void CLI::printhelp() {
                  "help - Prints this... what else? commands: h, help                                               |\n"
                  "printboard - Prints the current loaded chessboard to the console. aliases: p, print, printboard  |\n"
                  "movepiece - Moves a piece between two squares. aliases: m, mv, move, movepiece                   | example: \"movepiece e2 24\"\n"
-                 "loadfen - Loads a 'fen' complient string. aliases: l, load, loadfen                              |\n";
+                 "loadfen - Loads a 'fen' complient string. aliases: l, load, loadfen                              | in progress\n";
 }
