@@ -22,6 +22,7 @@ class ChessBoard {
     ChessBoard(std::string fen);
     ~ChessBoard();
 
+    std::string m_fen;
     struct BoardState* m_board;
     ChessMachine* m_ai;
 
@@ -29,6 +30,7 @@ class ChessBoard {
     int pieceispresent(int x, int y);
 
     void loadFen(std::string fen);
+    struct BoardState* clone();
 
     void movepiece(struct Move move);
     void printboard();

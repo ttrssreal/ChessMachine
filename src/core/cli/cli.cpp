@@ -1,6 +1,7 @@
 #include "cli.h"
 #include "chessboard.h"
 #include "piece.h"
+#include <chrono>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -37,6 +38,12 @@ void CLI::start(ChessBoard* chessboard) {
             CLI::printhelp();
         }
 
+        // dodgy
+        if (args[0] == "depth") {
+            // only single digit
+            m_targetboard->m_ai->m_depth = args[1][0] - '0';
+        }
+
         // movepiece
         if (args[0] == "m" ||
             args[0] == "mv" ||
@@ -59,8 +66,17 @@ void CLI::start(ChessBoard* chessboard) {
                  square[args[2]]});
 
             // auto make move after human
-            m_targetboard->m_ai->generatemoves(m_targetboard->m_board);
-            m_targetboard->m_ai->makemove(m_targetboard);
+
+            // speeed
+            auto start = std::chrono::system_clock::now();
+
+            m_targetboard->m_ai->bigbrain(m_targetboard->m_board);
+
+            auto end = std::chrono::system_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+            std::cout << "Machine thought for " << elapsed.count() << "s" << '\n';
+
+            m_targetboard->movepiece(m_targetboard->m_ai->m_bestmove);
         }
 
         // loadfen - non functioning
@@ -114,8 +130,9 @@ void CLI::info(std::string prefix, std::string msg) {
 
 void CLI::printhelp() {
     std::cout << "Commands:\n"
-                 "help - Prints this... what else? commands: h, help                                               |\n"
-                 "printboard - Prints the current loaded chessboard to the console. aliases: p, print, printboard  |\n"
-                 "movepiece - Moves a piece between two squares. aliases: m, mv, move, movepiece                   | example: \"movepiece e2 24\"\n"
-                 "loadfen - Loads a 'fen' complient string. aliases: l, load, loadfen                              | in progress\n";
+                 "help - Prints this... what else? commands: h, help                                                |\n"
+                 "printboard - Prints the current loaded chessboard to the console. aliases: p, print, printboard   |\n"
+                 "movepiece - Moves a piece between two squares. aliases: m, mv, move, movepiece                    | example: \"movepiece e2 24\"\n"
+                 "depth - Sets how far the machine will look ahead. (default 3). Can only use single digits rn      | example: \"depth 5\"\n"
+                 "loadfen - Loads a 'fen' complient string. aliases: l, load, loadfen                               | in progress\n";
 }

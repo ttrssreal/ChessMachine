@@ -1,11 +1,10 @@
-# Chess.
+# Chess Machine.
+A program that does the chess.
 
-Might add sdl2 idk tbh.
-
-### Deps
+### Dependecies
 - [Make](https://www.gnu.org/software/make/)
 - [Cmake](https://cmake.org/)
-- C++ compiler ie. [the gnu compiler](https://gcc.gnu.org/)
+- C++ compiler ie. [gnu compiler](https://gcc.gnu.org/)
 
 ### Build
 ```sh

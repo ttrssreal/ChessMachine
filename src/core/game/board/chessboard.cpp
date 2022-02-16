@@ -9,7 +9,6 @@
 #include "gameutil.h"
 #include "move.h"
 #include "piece.h"
-#include <assert.h>
 
 ChessBoard::ChessBoard() : ChessBoard(DEFAULTBOARDPOSITION) {}
 
@@ -17,6 +16,7 @@ ChessBoard::ChessBoard(std::string fen) {
     m_board = new struct BoardState;
     m_ai = new ChessMachine;
     loadFen(fen);
+    m_fen = fen;
 }
 
 ChessBoard::~ChessBoard() {
@@ -83,4 +83,10 @@ void ChessBoard::movepiece(struct Move move) {
 void ChessBoard::loadFen(std::string fen) {
     util_loadfen(fen, m_board);
     CLI::info(m_prefix, "Successfully loaded new game.");
+}
+
+BoardState* ChessBoard::clone() {
+    BoardState* boardstate = new BoardState;
+    *boardstate = *m_board;
+    return boardstate;
 }
